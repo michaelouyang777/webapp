@@ -57,7 +57,7 @@ import {getPage4Outside} from '../../service/outside'
     },
     methods: {
       clickItem: function (id) {
-//      this.$router.push('/notice/' + id);
+        this.$router.push('/outside/' + id);
       }
     }
   }
