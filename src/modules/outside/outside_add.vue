@@ -126,7 +126,7 @@
 				submitOutside(data).then((value) => {
 					Indicator.close();
 					Toast("提交成功");
-					//this.$router.go(-1);
+					this.$router.go(-1);
 				});
 			},
 			openStartPicker() {

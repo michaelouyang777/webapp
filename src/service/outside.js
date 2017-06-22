@@ -48,5 +48,19 @@ let submitOutside = (data) => {
 }
 
 
+/**
+ * 删除一项
+ */
+let deleteOutside = (id) => {
+	return new Promise((resolve, reject) => {
+		axios.get("/api/v1/outside/del" , id).then(function(result) {
+			Indicator.open('加载中...');
+			resolve(result);
+		}).catch(function(error) {
+			Toast(error);
+		})
+	})
+}
 
-export {getPage4Outside, openOutside, submitOutside}
+
+export {getPage4Outside, openOutside, submitOutside, deleteOutside}

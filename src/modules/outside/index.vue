@@ -4,33 +4,34 @@
     <section class="hy_list_container">
       <div class="hylist_container">
         <ul>
-          <li class="hy_li" @click="clickItem(item.id)" v-for="item in list">
-            <section>
-              <div class="hy_img text-center">
-                <span class="glyphicon glyphicon-file hy_file"></span>
-              </div>
-            </section>
-            <hgroup class="shop_right">
-              <header class="shop_detail_header">
-                <h4 class="shop_title ellipsis">{{item.name}}</h4>
-              </header>
-              <h5 class="fee_distance">
-                <section class="fee">
-                  	外出事项：{{item.things}}
-                </section>
-              </h5>
-              <h5 class="fee_distance">
-              	<section class="fee">
-                  	访问客户：{{item.client}}
-                </section>
-              </h5>
-              <h5 class="fee_distance">
-            	<div class="row">
-            		<div class="col-xs-6 fee">{{item.startDate}}</div>
-            		<div class="col-xs-6 fee">{{item.endDate}}</div>
-            	</div>
-              </h5>
-            </hgroup>
+          <li class="hy_li" @click="clickItem(item.id)" v-for="(item,index) in list">
+          	<mt-cell-swipe class="wrap" :right="[{
+					      content: '删除',
+					      style: { background: 'red', color: '#fff'},
+					      handler: () => delItem(item.id,index)
+						  }]" title="类别">
+	            <hgroup class="shop_right">
+	              <header class="shop_detail_header">
+	                <h4 class="shop_title ellipsis">{{item.name}}</h4>
+	              </header>
+	              <h5 class="fee_distance">
+	                <section class="fee">
+	                  	外出事项：{{item.things}}
+	                </section>
+	              </h5>
+	              <h5 class="fee_distance">
+	              	<section class="fee">
+	                  	访问客户：{{item.client}}
+	                </section>
+	              </h5>
+	              <h5 class="fee_distance">
+		            	<div class="row">
+		            		<div class="col-xs-6 fee">{{item.startDate}}</div>
+		            		<div class="col-xs-6 fee">{{item.endDate}}</div>
+		            	</div>
+	              </h5>
+	            </hgroup>
+            </mt-cell-swipe>
           </li>
         </ul>
       </div>
@@ -40,97 +41,67 @@
 </template>
 
 <script>
-	import { getPage4Outside } from '../../service/outside'
+	import { getPage4Outside, deleteOutside } from '../../service/outside'
 	import { Toast, Indicator } from 'mint-ui';
 	export default {
 		data() {
 			return {
+//				listSetting: ,
 				list: []
 			}
 		},
 		mounted() {
 			this.$root.$emit.apply(this.$root, ['change-header'].concat(["外出管理", true, true]));
-			//获取列表——外出
-			getPage4Outside().then(value => {
-				Indicator.close();
-				this.list = value;
-			});
+			this.openList();
 		},
 		methods: {
+			openList(){
+				//获取列表——外出
+				getPage4Outside().then((value) => {
+					Indicator.close();
+					this.list = value;
+				});
+			},
 			clickItem(id) {
 				this.$router.push('/outside/' + id);
 			},
 			addItem(){
 				this.$router.push('/outside/add');
+			},
+			delItem(id,index){
+				console.log(id +"+"+index)
+				//删除一项
+				deleteOutside(id).then(value => {
+					Indicator.close();
+				})
+				const list = this.list;
+				for(let i=0; list.length>i; i++){
+					console.log(i)
+					if(index == i){
+						list.splice(i,1);
+					}
+				}
 			}
 		}
+		
 	}
 </script>
 
 <style lang="stylus" scoped>
   .content
-    /*padding-top: 3.5rem;*/
     padding-top: 2rem;
     width 100%
     height 100%
-    .sort_container
-      background-color: #fff;
-      border-bottom: .025rem solid #f1f1f1;
-      position: fixed;
-      top: 1.9rem;
-      right: 0;
-      width: 100%;
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      z-index: 13;
-      box-sizing: border-box;
-      .sort_item
-        font-size: .55rem;
-        color: #444;
-        width: 50%;
-        height: 1.6rem;
-        text-align: center;
-        line-height: 1rem;
-        .sort_item_container
-          width: 100%;
-          height: 100%;
-          position: relative;
-          z-index: 14;
-          background-color: #fff;
-          box-sizing: border-box;
-          padding-top: 0.4rem;
-          .sort_item_border
-            height: 1rem;
-            border-right: .035rem solid #e4e4e4;
-            .sort_icon
-              height 0.5rem
     .hy_list_container
       .hylist_container
         background-color: #fff;
         padding-bottom: 2rem;
       .hy_li
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
         border-bottom: .025rem solid #e2e2e2;
-        padding: 0.5rem;
-        .hy_img
-          width: 100%;
-          height: 100%;
-          display: block;
-          margin-right: .4rem;
-          border-right: .025rem solid #f1f1f1;
-          padding-top: 1.5rem;
-          .hy_file
-            color: #ccc;
-            font-size: 1rem;
-            .active
-              color: #3190e8;
+        padding: 0.5rem 0;
         .shop_right
-          -webkit-box-flex: 1;
-          -ms-flex: auto;
-          flex: auto;
+          left: 0
+          top: 0
           margin-left: 0.4rem;
           .shop_detail_header
             display: -webkit-box;
