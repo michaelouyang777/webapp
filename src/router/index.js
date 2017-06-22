@@ -27,6 +27,7 @@ const DecisionYjc = resolve => require.ensure([], () => resolve(require('../modu
 //外出管理
 const Outside = resolve => require.ensure([], () => resolve(require('../modules/outside/index.vue')), 'outside/index')
 const OutsideInfo = resolve => require.ensure([], () => resolve(require('../modules/outside/outside_info.vue')), 'outside/outside_info')
+const OutsideAdd = resolve => require.ensure([], () => resolve(require('../modules/outside/outside_add.vue')), 'outside/outside_add')
 //待办事项
 const WorkTodo = resolve => require.ensure([], () => resolve(require('../modules/work/index.vue')), 'work/index')
 //制度建设
@@ -145,6 +146,11 @@ export default new Router({
     {
       path : '/outside/:id(\\d+)',
       component: OutsideInfo
+    },
+    //外出管理新增
+    {
+      path : '/outside/add',
+      component: OutsideAdd
     },
     //待办事项
     {

@@ -35,32 +35,36 @@
         </ul>
       </div>
     </section>
+   	<div class="add" @click="addItem()">+</div>
   </div>
 </template>
 
 <script>
-import {getPage4Outside} from '../../service/outside'
-  import { Toast } from 'mint-ui';
-  export default {
-    data() {
-      return {
-        list : []
-      }
-    },
-    mounted(){
-      this.$root.$emit.apply(this.$root, ['change-header'].concat(["外出管理", true ,true]));
-      //获取列表——外出
-      getPage4Outside().then(value => {
-      	console.log(value)
-        this.list = value;
-      });
-    },
-    methods: {
-      clickItem: function (id) {
-        this.$router.push('/outside/' + id);
-      }
-    }
-  }
+	import { getPage4Outside } from '../../service/outside'
+	import { Toast, Indicator } from 'mint-ui';
+	export default {
+		data() {
+			return {
+				list: []
+			}
+		},
+		mounted() {
+			this.$root.$emit.apply(this.$root, ['change-header'].concat(["外出管理", true, true]));
+			//获取列表——外出
+			getPage4Outside().then(value => {
+				Indicator.close();
+				this.list = value;
+			});
+		},
+		methods: {
+			clickItem(id) {
+				this.$router.push('/outside/' + id);
+			},
+			addItem(){
+				this.$router.push('/outside/add');
+			}
+		}
+	}
 </script>
 
 <style lang="stylus" scoped>
@@ -167,4 +171,16 @@ import {getPage4Outside} from '../../service/outside'
                 color: #ccc;
               .order_time
                 color: #3190e8;
+    .add
+      font-size: 2rem
+      background: #3190e8
+      color: #fff
+      height: 2rem
+      width: 2rem
+      line-height: 2rem
+      text-align: center
+      border-radius: 50%
+      position: absolute
+      right: 1rem
+      bottom: 1rem
 </style>

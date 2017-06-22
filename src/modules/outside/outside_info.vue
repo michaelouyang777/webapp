@@ -1,5 +1,5 @@
 <template>
-	<div class="notic_info">
+	<div class="outside_info">
 		<div class="panel no-radius">
 			<div class="panel-body body">
 				<div class="title">
@@ -66,6 +66,7 @@
 
 <script>
 	import { openOutside } from '../../service/outside'
+	import { Indicator } from 'mint-ui';
 	export default {
 		data() {
 			return {
@@ -76,6 +77,7 @@
 		mounted() {
 			this.$root.$emit.apply(this.$root, ['change-header'].concat(["外出管理详情", true, true]));
 			openOutside(this.id).then(value => {
+				Indicator.close();
 				this.notice = value;
 			});
 		}
@@ -83,7 +85,7 @@
 </script>
 
 <style lang="stylus" scoped>
-  .notic_info
+  .outside_info
     position absolute
     top 0rem
     bottom 2rem
