@@ -2,10 +2,10 @@
   <div class="decision">
     <div class="header">
       <div class="row item">
-        <div class="col-xs-6 center" :class="$route.path.indexOf('decision/exe') !== -1 ? 'active' : ''" @click="$router.push('/decision/exe')">
+        <div class="col-xs-6 center" :class="$route.path.indexOf('decision/exe') !== -1 ? 'active' : ''" @click="$router.replace('/decision/exe')">
           待执行
         </div>
-        <div class="col-xs-6 center" :class="$route.path.indexOf('decision/yjc') !== -1 ? 'active' : ''" @click="$router.push('/decision/yjc')">
+        <div class="col-xs-6 center" :class="$route.path.indexOf('decision/yjc') !== -1 ? 'active' : ''" @click="$router.replace('/decision/yjc')">
           已执行
         </div>
       </div>

@@ -2,16 +2,16 @@
   <div class="home">
     <div class="header">
       <div class="row item">
-        <div class="col-xs-3" :class="$route.path.indexOf('issue/ysh') !== -1 ? 'active' : ''" @click="$router.push('/issue/ysh')">
+        <div class="col-xs-3" :class="$route.path.indexOf('issue/ysh') !== -1 ? 'active' : ''" @click="$router.replace('/issue/ysh')">
           已上会
         </div>
-        <div class="col-xs-3" :class="$route.path.indexOf('issue/dsh') !== -1 ? 'active' : ''" @click="$router.push('/issue/dsh')">
+        <div class="col-xs-3" :class="$route.path.indexOf('issue/dsh') !== -1 ? 'active' : ''" @click="$router.replace('/issue/dsh')">
           待上会
         </div>
-        <div class="col-xs-3" :class="$route.path.indexOf('issue/spz') !== -1 ? 'active' : ''" @click="$router.push('/issue/spz')">
+        <div class="col-xs-3" :class="$route.path.indexOf('issue/spz') !== -1 ? 'active' : ''" @click="$router.replace('/issue/spz')">
           审批中
         </div>
-        <div class="col-xs-3" :class="$route.path.indexOf('issue/zxz') !== -1 ? 'active' : ''" @click="$router.push('/issue/zxz')">
+        <div class="col-xs-3" :class="$route.path.indexOf('issue/zxz') !== -1 ? 'active' : ''" @click="$router.replace('/issue/zxz')">
           执行中
         </div>
       </div>

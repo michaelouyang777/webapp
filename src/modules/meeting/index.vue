@@ -2,13 +2,13 @@
   <div class="meeting">
     <div class="header">
       <div class="row item">
-        <div class="col-xs-4" :class="$route.path.indexOf('meeting/todo/my') !== -1 ? 'active' : ''" @click="$router.push('/meeting/todo/my')">
+        <div class="col-xs-4" :class="$route.path.indexOf('meeting/todo/my') !== -1 ? 'active' : ''" @click="$router.replace('/meeting/todo/my')">
           我的会议
         </div>
-        <div class="col-xs-4" :class="$route.path.indexOf('meeting/todo/dcjhy') !== -1 ? 'active' : ''" @click="$router.push('/meeting/todo/dcjhy')">
+        <div class="col-xs-4" :class="$route.path.indexOf('meeting/todo/dcjhy') !== -1 ? 'active' : ''" @click="$router.replace('/meeting/todo/dcjhy')">
           待参加会议
         </div>        
-        <div class="col-xs-4" :class="$route.path.indexOf('meeting/todo/dsyhy') !== -1 ? 'active' : ''" @click="$router.push('/meeting/todo/dsyhy')">
+        <div class="col-xs-4" :class="$route.path.indexOf('meeting/todo/dsyhy') !== -1 ? 'active' : ''" @click="$router.replace('/meeting/todo/dsyhy')">
           待审阅会议
         </div>
       </div>
