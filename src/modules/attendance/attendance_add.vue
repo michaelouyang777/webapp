@@ -1,30 +1,53 @@
 <template>
-	<div class="outside_add">
+	<div class="attendance_add">
 		<div>
 			<div class="title">
 				<span class="text">基础信息</span>
 				<span class="sendBtn" @click="submit()">提 交</span>
 			</div>
-			<mt-field label="项目" placeholder="请填写内容" v-model="formData.title"></mt-field>
-			<mt-field label="派遣人" placeholder="请填写内容" v-model="formData.creater"></mt-field>
-			<mt-field label="访问客户" placeholder="请填写内容" v-model="formData.client"></mt-field>
 			
-			<div class="rootDatePicker">
-				<mt-field label="起始时间"></mt-field>
-				<span class="picker" @click="openStartPicker">{{startTime}}</span>
-				<mt-datetime-picker ref="startpicker" type="date" v-model="startpicker" @confirm="confirmStartDate"></mt-datetime-picker>
-			</div>
-			
-			<div class="rootDatePicker">
-				<mt-field label="结束时间"></mt-field>
-				<span class="picker" @click="openEndPicker">{{endTime}}</span>
-				<mt-datetime-picker ref="endpicker" type="date" v-model="endpicker" @confirm="confirmEndDate"></mt-datetime-picker>
-			</div>
-			
-			<mt-field label="外出事项" placeholder="请填写内容" v-model="formData.content" type="textarea" rows="4"></mt-field>
+			<form class="form-base">
+				<div class="flex form-mb" >
+					<div class="form-left">姓名</div>
+					<div class="felx-1 form-right"><input name="name" type="text" placeholder="请填写内容" v-model="formData.name"/></div>
+	            </div>
+				<div class="flex form-mb">
+					<div class="form-left">请假类别</div>
+					<div class="felx-1 form-right">
+						<mt-picker :slots="slots" @change="onTypeChange" :visible-item-count="1"></mt-picker>
+					</div>
+				</div>
+				
+				<div class="flex form-mb">
+					<div class="form-left">起始时间</div>
+					<div class="felx-1 form-right">
+						<span class="picker" @click="openStartPicker">{{startTime}}</span>
+						<mt-datetime-picker ref="startpicker" type="dateTime" v-model="startpicker" @confirm="confirmStartDate"></mt-datetime-picker>
+					</div>
+				</div>
+				<div class="flex form-mb">
+					<div class="form-left">结束时间</div>
+					<div class="felx-1 form-right">
+						<span class="picker" @click="openEndPicker">{{endTime}}</span>
+						<mt-datetime-picker ref="endpicker" type="dateTime" v-model="endpicker" @confirm="confirmEndDate"></mt-datetime-picker>
+					</div>
+				</div>
+				
+				<div class="flex form-mb">
+					<div class="form-left">请假天数</div>
+					<div class="felx-1 form-right">
+						<input name="days" type="text" placeholder="请填写天数" v-model="formData.days"/>
+					</div>
+				</div>
+				<div class="flex">
+					<div class="form-left">事项说明</div>
+					<div class="felx-1 form-right-db">
+						<textarea name="content" type="text" placeholder="请填写内容" rows="3" v-model="formData.content"/>
+					</div>
+				</div>
+			</form>
 		</div>
 			
-		
 		<div class="content_file">
 			<div class="title">
 				<span class="text">附件</span>
@@ -38,22 +61,23 @@
 </template>
 
 <script>
-	import { submitOutside } from '../../service/outside'
+	import { submitAttendance } from '../../service/attendance'
 	import { Toast, Indicator } from 'mint-ui';
 	export default {
 		data() {
 			return {
+				slots:[{values: ['事假','病假', '年假', '婚假', '其他'], flex:1}],
 				startTime: "请选择时间",
 				endTime: "请选择时间",
 				startpicker: '',
 				endpicker: '',
 				formData: {
-					title: '',
-					creater: '',
-					client: '',
-					startDate: '',
-					endDate: '',
-					content: ''
+					name: '',		// 姓名
+					type: '',		// 类别		
+					days: '',		// 天数		
+					startDate: '',	// 开始时间
+					endDate: '',	// 结束时间
+					content: ''		// 说明
 				},
 				//存放选项
 				value:[],
@@ -63,7 +87,7 @@
 			}
 		},
 		mounted() {
-			this.$root.$emit.apply(this.$root, ['change-header'].concat(["新增外出管理", true, true]));
+			this.$root.$emit.apply(this.$root, ['change-header'].concat(["新增请休假", true, true]));
 		},
 		methods:{
 			addFile(){
@@ -87,20 +111,16 @@
 			},
 			submit(){
 				const formData = this.formData;
-				if(formData.title==''){
-					Toast("请填写项目内容");
+				if(formData.name==''){
+					Toast("请填写姓名");
 					return;
 				}
-				if(formData.creater==''){
-					Toast("请填写派遣人");
+				if(formData.type==''){
+					Toast("请选择请假类别");
 					return;
 				}
-				if(formData.client==''){
-					Toast("请填写访问客户");
-					return;
-				}
-				if(formData.content==''){
-					Toast("请填写外出事项");
+				if(formData.days==''){
+					Toast("请填写请假天数");
 					return;
 				}
 				if(formData.startDate==''){
@@ -118,16 +138,18 @@
 //					return;
 //				}
 				
-				
 				let fileData = {};//TODO
 				const data= Object.assign(fileData,this.formData);
 				console.log(data)
 				//提交表单
-				submitOutside(data).then((value) => {
+				submitAttendance(data).then((value) => {
 					Indicator.close();
 					Toast("提交成功");
 					this.$router.go(-1);
 				});
+			},
+			onTypeChange(picker, values) {
+				this.formData.type = values[0];
 			},
 			openStartPicker() {
 		        this.$refs.startpicker.open();
@@ -148,17 +170,8 @@
 </script>
 
 <style lang="stylus" scoped>
-  .outside_add
-      .rootDatePicker
-        position: relative
-        .picker
-          position: absolute
-          top: .5rem
-          left: 5.75rem
-          display: inline-block
-          width:9.75rem
-          color: #757575
-          text-align: right
+  @import '../../assets/css/form';
+  .attendance_add
       .title
         background: #e5e5e5
         height: 2rem
@@ -167,6 +180,19 @@
         position: relative
         .text
           font-size: 1rem
+        .sendBtn
+          font-size: .6rem
+          display: inline-block
+          width: 2.5rem
+          height: 1.2rem
+          text-align: center
+          border-radius: 5px
+          color: #fff
+          position: absolute
+          top: .4rem
+          right: .5rem
+          line-height: 1.2rem
+          background: #09bb07
         .temp
           font-size: 1rem
           display: inline-block
@@ -185,19 +211,6 @@
           line-height: 1rem
           right: 3rem
           background: #e64340
-        .sendBtn
-          font-size: .6rem
-          display: inline-block
-          width: 2.5rem
-          height: 1.2rem
-          text-align: center
-          border-radius: 5px
-          color: #fff
-          position: absolute
-          top: .4rem
-          right: .5rem
-          line-height: 1.2rem
-          background: #09bb07
-      .panel-body
-      	padding: 0
+      .form-base
+      	padding: 1rem
 </style>

@@ -62,6 +62,20 @@
     <div class="container">
     	<div class="row">
         <div class="col-xs-12">
+          <mt-cell title="请休假管理" to="/attendance" is-link>
+            <span slot="icon" class="glyphicon glyphicon-tasks icon_style"></span>
+          </mt-cell>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <mt-cell title="报销管理" to="/receipt" is-link>
+            <span slot="icon" class="glyphicon glyphicon-tasks icon_style"></span>
+          </mt-cell>
+        </div>
+      </div>
+    	<div class="row">
+        <div class="col-xs-12">
           <mt-cell title="外出管理" to="/outside" is-link>
             <span slot="icon" class="glyphicon glyphicon-tasks icon_style"></span>
           </mt-cell>

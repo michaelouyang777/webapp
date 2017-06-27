@@ -12,16 +12,18 @@
 						  }]" title="类别">
 	            <hgroup class="shop_right">
 	              <header class="shop_detail_header">
-	                <h4 class="shop_title ellipsis">{{item.name}}</h4>
+	                <h4 class="shop_title ellipsis">{{item.title}}</h4>
 	              </header>
 	              <h5 class="fee_distance">
 	                <section class="fee">
-	                  	外出事项：{{item.things}}
+	                  	姓名：{{item.name}}
+	                  	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	               		 提交人：{{item.agreed}}
 	                </section>
 	              </h5>
 	              <h5 class="fee_distance">
 	              	<section class="fee">
-	                  	访问客户：{{item.client}}
+	                  	请假类别：{{item.type}}
 	                </section>
 	              </h5>
 	              <h5 class="fee_distance fee_m">
@@ -41,7 +43,7 @@
 </template>
 
 <script>
-	import { getPage4Outside, deleteOutside } from '../../service/outside'
+	import { getPage4Attendance, deleteAttendance } from '../../service/attendance'
 	import { Toast, Indicator } from 'mint-ui';
 	export default {
 		data() {
@@ -51,27 +53,27 @@
 			}
 		},
 		mounted() {
-			this.$root.$emit.apply(this.$root, ['change-header'].concat(["外出管理", true, true]));
+			this.$root.$emit.apply(this.$root, ['change-header'].concat(["请休假管理", true, true]));
 			this.openList();
 		},
 		methods: {
 			openList(){
 				//获取列表——外出
-				getPage4Outside().then((value) => {
+				getPage4Attendance().then((value) => {
 					Indicator.close();
 					this.list = value;
 				});
 			},
 			clickItem(id) {
-				this.$router.push('/outside/' + id);
+				this.$router.push('/attendance/' + id);
 			},
 			addItem(){
-				this.$router.push('/outside/add');
+				this.$router.push('/attendance/add');
 			},
 			delItem(id,index){
 				console.log(id +"+"+index)
 				//删除一项
-				deleteOutside(id).then(value => {
+				deleteAttendance(id).then(value => {
 					Indicator.close();
 				})
 				const list = this.list;

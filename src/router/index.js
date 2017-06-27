@@ -28,6 +28,17 @@ const DecisionYjc = resolve => require.ensure([], () => resolve(require('../modu
 const Outside = resolve => require.ensure([], () => resolve(require('../modules/outside/index.vue')), 'outside/index')
 const OutsideInfo = resolve => require.ensure([], () => resolve(require('../modules/outside/outside_info.vue')), 'outside/outside_info')
 const OutsideAdd = resolve => require.ensure([], () => resolve(require('../modules/outside/outside_add.vue')), 'outside/outside_add')
+
+//报销管理
+const Receipt = resolve => require.ensure([], () => resolve(require('../modules/receipt/index.vue')), 'receipt/index')
+const ReceiptInfo = resolve => require.ensure([], () => resolve(require('../modules/receipt/receipt_info.vue')), 'receipt/receipt_info')
+const ReceiptAdd = resolve => require.ensure([], () => resolve(require('../modules/receipt/receipt_add.vue')), 'receipt/receipt_add')
+
+//请休假管理
+const Attendance = resolve => require.ensure([], () => resolve(require('../modules/attendance/index.vue')), 'attendance/index')
+const AttendanceInfo = resolve => require.ensure([], () => resolve(require('../modules/attendance/attendance_info.vue')), 'attendance/attendance_info')
+const AttendanceAdd = resolve => require.ensure([], () => resolve(require('../modules/attendance/attendance_add.vue')), 'attendance/attendance_add')
+
 //待办事项
 const WorkTodo = resolve => require.ensure([], () => resolve(require('../modules/work/index.vue')), 'work/index')
 //制度建设
@@ -136,6 +147,36 @@ export default new Router({
     {
       path : '/decision/:id(\\d+)',
       component: DecisionInfo
+    },
+    //请休假管理
+    {
+      path : '/attendance',
+      component: Attendance
+    },
+    //请休假管理详情
+    {
+      path : '/attendance/:id(\\d+)',
+      component: AttendanceInfo
+    },
+    //请休假管理新增
+    {
+      path : '/attendance/add',
+      component: AttendanceAdd
+    },
+    //报销管理
+    {
+      path : '/receipt',
+      component: Receipt
+    },
+    //报销管理详情
+    {
+      path : '/receipt/:id(\\d+)',
+      component: ReceiptInfo
+    },
+    //报销新增
+    {
+      path : '/receipt/add',
+      component: ReceiptAdd
     },
     //外出管理
     {
